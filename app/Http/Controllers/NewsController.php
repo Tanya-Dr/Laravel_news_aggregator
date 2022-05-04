@@ -9,8 +9,10 @@ class NewsController extends Controller
     public function index()
     {
         $categories = $this->getCategories();
+        $news = $this->getNews(rand(0,5));
         return view('news.index',[
-            'categoriesList' => $categories
+            'categoriesList' => $categories,
+            'newsList' => $news
         ]);
     }
 
@@ -20,24 +22,26 @@ class NewsController extends Controller
             abort(404);
         }
 
-        $category = $this->getCategories($idCategory);
+        $categories = $this->getCategories();
         $news = $this->getNews($idCategory);
-        return view('news.showCategory',[
-            'category' => $category,
-            'newsList' => $news
+        return view('news.index',[
+            'categoriesList' => $categories,
+            'newsList' => $news,
+            'chooseCategory' => $idCategory
         ]);
     }
 
     public function show(int $idCategory, int $id)
     {
-        if($idCategory > 5 || $id > 4){
+        if($idCategory > 5 || $id > 9){
             abort(404);
         }
 
+        $category = $this->getCategories($idCategory);
         $news = $this->getNews($idCategory,$id);
         return view('news.showNews',[
             'news' => $news,
-            'idCategory' => $idCategory
+            'categoryName' => $category
         ]);
     }
 }

@@ -19,15 +19,17 @@ class Controller extends BaseController
 
         if($idCategory){
             return [
-              'id' => $idCategory,
-              'title' => $faker->text(10)
+                'id' => $idCategory,
+                'title' => $faker->text(10),
+                'created_at' => now('Europe/Moscow')
             ];
         }
 
         for($i = 0; $i < 5; $i++) {
             $categories[] = [
                 'id' => $i + 1,
-                'title' => $faker->text(10)
+                'title' => $faker->text(10),
+                'created_at' => now('Europe/Moscow')
             ];
         }
 
@@ -51,7 +53,7 @@ class Controller extends BaseController
             ];
         }
 
-        for($i = 0; $i < 4; $i++) {
+        for($i = 0; $i < 9; $i++) {
             $news[] = [
                 'idCategory' => $idCategory,
                 'id' => $i + 1,
@@ -66,4 +68,23 @@ class Controller extends BaseController
         return $news;
     }
 
+    public function getAllNews(): array
+    {
+        $news = [];
+        $faker = Factory::create();
+
+        for($i = 0; $i < 5*9; $i++) {
+            $news[] = [
+                'idCategory' => intdiv($i,9)+1,
+                'id' => $i + 1,
+                'title' => $faker->jobTitle(),
+                'author' => $faker->name(),
+                'image' => $faker->imageUrl(),
+                'description' => $faker->text(150),
+                'created_at' => now('Europe/Moscow')
+            ];
+        }
+
+        return $news;
+    }
 }
