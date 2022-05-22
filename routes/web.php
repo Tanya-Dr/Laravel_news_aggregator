@@ -7,7 +7,7 @@ use \App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
 use \App\Http\Controllers\Admin\NewsController as AdminNewsController;
 use \App\Http\Controllers\Admin\IndexController as AdminController;
 
-use \App\Http\Controllers\AuthController;
+use \App\Http\Controllers\UserController as UserController;
 
 
     /*
@@ -46,5 +46,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function() {
     Route::resource('/news', AdminNewsController::class);
 });
 
-Route::get('/auth', [AuthController::class, 'index'])
-    ->name('auth');
+Route::group(['prefix' => 'user', 'as' => 'user.'], function() {
+    Route::match(['get', 'post'],'/auth',[UserController::class, 'auth'])
+        ->name('auth');
+    Route::match(['get', 'post'],'/feedback',[UserController::class, 'feedback'])
+        ->name('feedback');
+    Route::match(['get', 'post'],'/dataUpload',[UserController::class, 'dataUpload'])
+        ->name('dataUpload');
+});

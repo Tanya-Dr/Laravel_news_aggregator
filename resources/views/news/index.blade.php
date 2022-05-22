@@ -13,7 +13,7 @@
                     <strong>
                         <a href="{{ route('news.show',['idCategory' => $news['idCategory'], 'id' => $news['id']]) }}">{{ $news['title'] }}</a>
                     </strong>
-                    <p class="card-text">{{ $news['description'] }}</p>
+                        <p class="card-text">{{ $news['description'] }}</p>
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="btn-group">
                             <a href="{{ route('news.show',['idCategory' => $news['idCategory'], 'id' => $news['id']]) }}" class="btn btn-sm btn-outline-secondary">View</a>

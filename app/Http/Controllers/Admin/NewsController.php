@@ -10,7 +10,7 @@ class NewsController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function index()
     {
@@ -23,7 +23,7 @@ class NewsController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\Response
      */
     public function create()
     {
@@ -38,7 +38,13 @@ class NewsController extends Controller
      */
     public function store(Request $request)
     {
-        return "News added";
+        $request->validate([
+            'title' => ['required', 'string'],
+            'author' => ['required', 'string'],
+            'description' => ['required', 'string']
+        ]);
+//        return "News added";
+        return response()->json($request->only(['title', 'author', 'status', 'description']), 201);
     }
 
     /**

@@ -34,7 +34,7 @@
                     <td>{{ $news['author'] }}</td>
                     <td>{{ $news['image'] }}</td>
                     <td>{{ $news['description'] }}</td>
-                    <td>ok</td>
+                    <td>ACTIVE</td>
                     <td>{{ $news['created_at'] }}</td>
                 </tr>
             @endforeach

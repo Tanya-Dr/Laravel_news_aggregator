@@ -8,22 +8,51 @@
         </div>
     </div>
 
-    <div class="table-responsive">
-        <h3>Adding news form</h3>
-        <form style = "width: 60%">
-            <div class="mb-3">
-                <label for="titleInput" class="form-label">Title</label>
-                <input type="text" class="form-control" id="titleInput">
+    <h3>Adding news form</h3>
+    @if($errors->any())
+        @foreach($errors->all() as $error)
+            <x-alert type="danger" :message=$error></x-alert>
+        @endforeach
+    @endif
+    <form class="needs-validation" style = "width: 60%" method="post" action = "{{ route('admin.news.store') }}" novalidate>
+        @csrf
+        <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" class="form-control" id="title" name="title" value="{{ old('title') }}" required>
+            <div class="invalid-feedback">
+                Please enter a title.
             </div>
-            <div class="mb-3">
-                <label for="fullInfo" class="form-label">Full info</label>
-                <textarea class="form-control" id="fullInfo" rows="5"></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="author" class="form-label">Author</label>
+            <input type="text" class="form-control" id="author" name="author"  value="{{ old('author') }}" required>
+            <div class="invalid-feedback">
+                Please enter an author.
             </div>
-            <div class="mb-3">
-                <label for="shortInfo" class="form-label">Short Info</label>
-                <textarea class="form-control" id="shortInfo" rows="3"></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea class="form-control" id="description" name="description" rows="5" required>{!! old('description') !!}</textarea>
+            <div class="invalid-feedback">
+                Please enter a description.
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-    </div>
+        </div>
+        <div class="mb-3">
+            <label for="status" class="form-label">Status</label>
+            <select class="form-select form-select-sm mb-3" aria-label=".form-select-dm example" id="status" name="status">
+                <option @if(old('status') === 'DRAFT') selected @endif>DRAFT</option>
+                <option @if(old('status') === 'ACTIVE') selected @endif>ACTIVE</option>
+                <option @if(old('status') === 'BLOCKED') selected @endif>BLOCKED</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="image" class="form-label">Image</label>
+            <input class="form-control" type="file" id="image" name="image">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
 @endsection
+@push('js')
+    <script src="{{ asset('js/validate-forms.js') }}"></script>
+@endpush

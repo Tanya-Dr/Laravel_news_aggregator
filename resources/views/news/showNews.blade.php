@@ -13,7 +13,7 @@
         </article>
     </div>
     <div class="col-md-4">
-        <div clas="position-sticky" style="top: 2rem;">
+        <div class="position-sticky" style="top: 2rem;">
             <img src="{{ $news['image'] }}" alt="{{ $news['title'] }}" style="width: 100%;">
         </div>
     </div>

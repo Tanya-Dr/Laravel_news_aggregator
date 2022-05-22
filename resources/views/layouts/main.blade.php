@@ -36,6 +36,7 @@
         }
     </style>
 
+    <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet">
 </head>
 <body>
 <div class="wrapper">
@@ -55,11 +56,8 @@
     <x-footer></x-footer>
 </div>
 
-
-
 <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
-
-
+@stack('js')
 </body>
 </html>
 
