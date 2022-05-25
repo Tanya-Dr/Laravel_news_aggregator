@@ -42,8 +42,8 @@
 <div class="wrapper">
     <div class="top">
         <x-admin.header></x-admin.header>
-        @isset($categoriesList)
-        <x-categoriesNavBar :categoriesList="$categoriesList"></x-categoriesNavBar>
+        @isset($categories)
+        <x-categoriesNavBar :categories="$categories"></x-categoriesNavBar>
         @endisset
         <main>
             <div class="album py-5 bg-light">

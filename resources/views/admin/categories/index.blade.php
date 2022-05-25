@@ -17,17 +17,30 @@
             <tr>
                 <th scope="col">#ID</th>
                 <th scope="col">Title</th>
+                <th scope="col">Description</th>
                 <th scope="col">Created date</th>
+                <th scope="col">Control</th>
             </tr>
             </thead>
             <tbody>
-            @foreach($categoriesList as $categories)
+            @forelse($categories as $category)
                 <tr>
-                    <td>{{ $categories['id'] }}</td>
-                    <td>{{ $categories['title'] }}</td>
-                    <td>{{ $categories['created_at'] }}</td>
+                    <td>{{ $category->id }}</td>
+                    <td>{{ $category->title }}</td>
+                    <td>{{ $category->description }}</td>
+                    <td>{{ $category->created_at }}</td>
+                    <td>
+                        <a href="{{ route('admin.categories.edit', ['category' => $category->id]) }}" style="font-size: 12px;">Edit</a>&nbsp;
+                        <a href="#" style="color:red; font-size: 12px;">Delete</a>
+                    </td>
                 </tr>
-            @endforeach
+            @empty
+                <tr>
+                    <td>
+                        No categories.
+                    </td>
+                </tr>
+            @endforelse
             </tbody>
         </table>
     </div>

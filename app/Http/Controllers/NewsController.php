@@ -2,16 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use App\Models\News;
 use Illuminate\Http\Request;
 
 class NewsController extends Controller
 {
     public function index()
     {
-        $categories = $this->getCategories();
-        $news = $this->getNews(rand(0,5));
+        $modelNews = app(News::class);
+        $modelCategory = app(Category::class);
+        $categories = $modelCategory->getCategories();
+        $news = $modelNews->getAllNews();
         return view('news.index',[
-            'categoriesList' => $categories,
+            'categories' => $categories,
             'newsList' => $news
         ]);
     }
@@ -22,10 +26,12 @@ class NewsController extends Controller
             abort(404);
         }
 
-        $categories = $this->getCategories();
-        $news = $this->getNews($idCategory);
+        $modelNews = app(News::class);
+        $modelCategory = app(Category::class);
+        $categories = $modelCategory->getCategories();
+        $news = $modelNews->getNewsByCategory($idCategory);
         return view('news.index',[
-            'categoriesList' => $categories,
+            'categories' => $categories,
             'newsList' => $news,
             'chooseCategory' => $idCategory
         ]);
@@ -33,12 +39,13 @@ class NewsController extends Controller
 
     public function show(int $idCategory, int $id)
     {
-        if($idCategory > 5 || $id > 9){
+        if($idCategory > 5 || $id > 20 || $id < 11){
             abort(404);
         }
-
-        $category = $this->getCategories($idCategory);
-        $news = $this->getNews($idCategory,$id);
+        $modelNews = app(News::class);
+        $modelCategory = app(Category::class);
+        $category = $modelCategory->getCategory($idCategory);
+        $news = $modelNews->getNews($id);
         return view('news.showNews',[
             'news' => $news,
             'categoryName' => $category

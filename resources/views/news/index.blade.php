@@ -6,19 +6,19 @@
         @forelse($newsList as $news)
         <div class="col">
             <div class="card shadow-sm">
-                <a href = "{{ route('news.show',['idCategory' => $news['idCategory'], 'id' => $news['id']]) }}">
-                        <img src="{{ $news['image'] }}" width="100%" height="225" alt="{{ $news['title'] }}">
+                <a href = "{{ route('news.show',['idCategory' => $news->category_id, 'id' => $news->id]) }}">
+                        <img src="{{ $news->image }}" width="100%" height="225" alt="{{ $news->title }}">
                 </a>
                 <div class="card-body">
                     <strong>
-                        <a href="{{ route('news.show',['idCategory' => $news['idCategory'], 'id' => $news['id']]) }}">{{ $news['title'] }}</a>
+                        <a href="{{ route('news.show',['idCategory' => $news->category_id, 'id' => $news->id]) }}">{{ $news->title }}</a>
                     </strong>
-                        <p class="card-text">{{ $news['description'] }}</p>
+                        <p class="card-text">{{ $news->description }}</p>
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="btn-group">
-                            <a href="{{ route('news.show',['idCategory' => $news['idCategory'], 'id' => $news['id']]) }}" class="btn btn-sm btn-outline-secondary">View</a>
+                            <a href="{{ route('news.show',['idCategory' => $news->category_id, 'id' => $news->id]) }}" class="btn btn-sm btn-outline-secondary">View</a>
                         </div>
-                        <small class="text-muted"><strong>Author: </strong>{{ $news['author'] }}</small>
+                        <small class="text-muted"><strong>Author: </strong>{{ $news->author }}</small>
                     </div>
                 </div>
             </div>

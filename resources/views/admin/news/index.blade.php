@@ -17,6 +17,7 @@
             <tr>
                 <th scope="col">#ID</th>
                 <th scope="col">Category</th>
+                <th scope="col">Source</th>
                 <th scope="col">Title</th>
                 <th scope="col">Author</th>
                 <th scope="col">Image(url)</th>
@@ -26,18 +27,23 @@
             </tr>
             </thead>
             <tbody>
-            @foreach($newsList as $news)
+            @forelse($newsList as $news)
                 <tr>
-                    <td>{{ $news['id'] }}</td>
-                    <td>{{ $news['idCategory'] }}</td>
-                    <td>{{ $news['title'] }}</td>
-                    <td>{{ $news['author'] }}</td>
-                    <td>{{ $news['image'] }}</td>
-                    <td>{{ $news['description'] }}</td>
-                    <td>ACTIVE</td>
-                    <td>{{ $news['created_at'] }}</td>
+                    <td>{{ $news->id }}</td>
+                    <td>{{ $news->category_id }}</td>
+                    <td>{{ $news->source_id }}</td>
+                    <td>{{ $news->title }}</td>
+                    <td>{{ $news->author }}</td>
+                    <td>{{ $news->image }}</td>
+                    <td>{{ $news->description }}</td>
+                    <td>{{ $news->status }}</td>
+                    <td>{{ $news->created_at }}</td>
                 </tr>
-            @endforeach
+            @empty
+                <tr>
+                    <td>No news</td>
+                </tr>
+            @endforelse
             </tbody>
         </table>
     </div>
