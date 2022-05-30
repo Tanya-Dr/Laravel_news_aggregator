@@ -37,13 +37,14 @@
     </style>
 
     <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/blog.css') }}" rel="stylesheet">
 </head>
 <body>
 <div class="wrapper">
     <div class="top">
         <x-admin.header></x-admin.header>
         @isset($categories)
-        <x-categoriesNavBar :categories="$categories"></x-categoriesNavBar>
+            <x-categoriesNavBar :categories="$categories" :news="$news"></x-categoriesNavBar>
         @endisset
         <main>
             <div class="album py-5 bg-light">

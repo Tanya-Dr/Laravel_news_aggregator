@@ -12,6 +12,7 @@
     </div>
 
     <div class="table-responsive">
+        @include('inc.messages')
         <table class="table table-striped table-sm">
             <thead>
             <tr>
@@ -24,20 +25,27 @@
                 <th scope="col">Description</th>
                 <th scope="col">Status</th>
                 <th scope="col">Created date</th>
+                <th scope="col">Updated date</th>
+                <th scope="col">Control</th>
             </tr>
             </thead>
             <tbody>
             @forelse($newsList as $news)
                 <tr>
                     <td>{{ $news->id }}</td>
-                    <td>{{ $news->category_id }}</td>
-                    <td>{{ $news->source_id }}</td>
+                    <td>{{ $news->category->title }}</td>
+                    <td>{{ $news->source->title }}</td>
                     <td>{{ $news->title }}</td>
                     <td>{{ $news->author }}</td>
                     <td>{{ $news->image }}</td>
                     <td>{{ $news->description }}</td>
                     <td>{{ $news->status }}</td>
+                    <td>{{ $news->updated_at }}</td>
                     <td>{{ $news->created_at }}</td>
+                    <td>
+                        <a href="{{ route('admin.news.edit', ['news' => $news]) }}" style="font-size: 12px;">Edit</a>&nbsp;
+                        <a href="#" style="color:red; font-size: 12px;">Delete</a>
+                    </td>
                 </tr>
             @empty
                 <tr>
@@ -46,5 +54,7 @@
             @endforelse
             </tbody>
         </table>
+
+        {{ $newsList->links() }}
     </div>
 @endsection

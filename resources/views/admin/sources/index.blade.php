@@ -1,12 +1,12 @@
 @extends('layouts.admin')
-@section('title') - Categories @parent @stop
+@section('title') - Sources @parent @stop
 
 @section('content')
     <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 class="h2">Categories list</h1>
+        <h1 class="h2">Sources list</h1>
         <div class="btn-toolbar mb-2 mb-md-0">
             <div class="btn-group me-2">
-                <a href="{{ route('admin.categories.create') }}" class="btn btn-sm btn-outline-secondary">Add category</a>
+                <a href="{{ route('admin.sources.create') }}" class="btn btn-sm btn-outline-secondary">Add source</a>
             </div>
         </div>
     </div>
@@ -19,36 +19,39 @@
                 <th scope="col">#ID</th>
                 <th scope="col">Title</th>
                 <th scope="col">Count of news</th>
-                <th scope="col">Description</th>
+                <th scope="col">Url</th>
+                <th scope="col">Type</th>
                 <th scope="col">Created date</th>
                 <th scope="col">Updated date</th>
                 <th scope="col">Control</th>
             </tr>
             </thead>
             <tbody>
-            @forelse($categories as $category)
+            @forelse($sources as $source)
                 <tr>
-                    <td>{{ $category->id }}</td>
-                    <td>{{ $category->title }}</td>
-                    <td>{{ $category->news_count }}</td>
-                    <td>{{ $category->description }}</td>
-                    <td>{{ $category->created_at }}</td>
-                    <td>{{ $category->updated_at }}</td>
+                    <td>{{ $source->id }}</td>
+                    <td>{{ $source->title }}</td>
+                    <td>{{ $source->news_count }}</td>
+                    <td>{{ $source->url }}</td>
+                    <td>{{ $source->type }}</td>
+                    <td>{{ $source->created_at }}</td>
+                    <td>{{ $source->updated_at }}</td>
                     <td>
-                        <a href="{{ route('admin.categories.edit', ['category' => $category]) }}" style="font-size: 12px;">Edit</a>&nbsp;
+                        <a href="{{ route('admin.sources.edit', ['source' => $source]) }}" style="font-size: 12px;">Edit</a>&nbsp;
                         <a href="#" style="color:red; font-size: 12px;">Delete</a>
                     </td>
                 </tr>
             @empty
                 <tr>
                     <td>
-                        No categories.
+                        No sources.
                     </td>
                 </tr>
             @endforelse
             </tbody>
         </table>
 
-        {{ $categories->links() }}
+        {{ $sources->links() }}
     </div>
 @endsection
+

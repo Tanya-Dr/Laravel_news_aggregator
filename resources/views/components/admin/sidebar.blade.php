@@ -16,6 +16,16 @@
                     News
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link @if(request()->routeIs('admin.sources.*')) active @endif" href="{{ route('admin.sources.index') }}">
+                    Sources
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link @if(request()->routeIs('admin.orders.*')) active @endif" href="{{ route('admin.orders.index') }}">
+                    Orders
+                </a>
+            </li>
 {{--            <li class="nav-item">--}}
 {{--                <a class="nav-link" href="#">--}}
 {{--                    <span data-feather="users"></span>--}}

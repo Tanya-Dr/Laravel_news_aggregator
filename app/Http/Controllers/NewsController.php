@@ -4,51 +4,60 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\News;
-use Illuminate\Http\Request;
+use App\Models\Source;
+use App\Queries\QueryBuilderNews;
 
 class NewsController extends Controller
 {
-    public function index()
+    /**
+     * @param QueryBuilderNews $news
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function index(QueryBuilderNews $news)
     {
-        $modelNews = app(News::class);
-        $modelCategory = app(Category::class);
-        $categories = $modelCategory->getCategories();
-        $news = $modelNews->getAllNews();
+        $categories = Category::all();
         return view('news.index',[
             'categories' => $categories,
-            'newsList' => $news
+            'newsList' => $news->getNews()
         ]);
     }
 
-    public function showCategory(int $idCategory)
+    /**
+     * @param QueryBuilderNews $news
+     * @param Category $category
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function showCategory(QueryBuilderNews $news, Category $category)
     {
-        if($idCategory > 5){
-            abort(404);
-        }
-
-        $modelNews = app(News::class);
-        $modelCategory = app(Category::class);
-        $categories = $modelCategory->getCategories();
-        $news = $modelNews->getNewsByCategory($idCategory);
+        $categories = Category::all();
         return view('news.index',[
             'categories' => $categories,
-            'newsList' => $news,
-            'chooseCategory' => $idCategory
+            'newsList' => $news->getNewsByCategory($category),
+            'category' => $category
         ]);
     }
 
-    public function show(int $idCategory, int $id)
+    /**
+     * @param QueryBuilderNews $news
+     * @param Source $source
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function showSource(QueryBuilderNews $news, Source $source)
     {
-        if($idCategory > 5 || $id > 20 || $id < 11){
-            abort(404);
-        }
-        $modelNews = app(News::class);
-        $modelCategory = app(Category::class);
-        $category = $modelCategory->getCategory($idCategory);
-        $news = $modelNews->getNews($id);
-        return view('news.showNews',[
-            'news' => $news,
-            'categoryName' => $category
+        $categories = Category::all();
+        return view('news.index',[
+            'categories' => $categories,
+            'newsList' => $news->getNewsBySource($source),
+            'source' => $source
         ]);
+    }
+
+    /**
+     * @param News $news
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function show(News $news)
+    {
+        return view('news.showNews',['news' => $news]);
     }
 }

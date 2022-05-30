@@ -4,12 +4,12 @@
 @section('content')
 <div class="row g-5">
     <div class="col-md-8">
-        <h3 class="pb-4 mb-4 fst-italic border-bottom">{{ $categoryName->title }}</h3>
+        <h3 class="pb-4 mb-4 fst-italic border-bottom">{{ $news->category->title }}</h3>
         <article class="blog-post">
             <h2 class="blog-post-title">{{ $news->title }}</h2>
-            <p class="blog-post-meta">{{ $news->created_at }}</p>
-
+            <p class="blog-post-meta">{{ $news->created_at }} by {{ $news->author }}</p>
             <p>{{ $news->description }}</p>
+            <p class="blog-post-meta"><strong>Source: </strong> <a href="{{ route('news.source', ['source' => $news->source]) }}">{{ $news->source->title }}</a></p>
         </article>
     </div>
     <div class="col-md-4">
@@ -17,7 +17,7 @@
             <img src="{{ $news->image }}" alt="{{ $news->title }}" style="width: 100%;">
         </div>
     </div>
-    <a class="p-2 link-secondary" href="{{ route('news.category', ['idCategory' => $categoryName->id]) }}">Back to category</a>
+    <a class="p-2 link-secondary" href="{{ route('news.category', ['category' => $news->category]) }}">Back to category</a>
 </div>
 
 @endsection

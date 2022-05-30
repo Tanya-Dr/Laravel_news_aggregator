@@ -1,10 +1,16 @@
-@extends('layouts.main')
-@section('title') - Make an order @parent @stop
+@extends('layouts.admin')
+@section('title') - Add order @parent @stop
 
 @section('content')
-    <h3>Make an order</h3>
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Add order</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+        </div>
+    </div>
+
+    <h3>Adding order's form</h3>
     @include('inc.messages')
-    <form class="needs-validation" style = "width: 60%" method="post" action = "{{ route('user.dataUpload') }}" novalidate>
+    <form class="needs-validation" style = "width: 60%" method="post" action = "{{ route('admin.orders.store') }}" novalidate>
         @csrf
         <div class="mb-3">
             <label for="user_name" class="form-label">Name</label>

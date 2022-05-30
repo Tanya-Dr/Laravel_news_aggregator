@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class News extends Model
 {
@@ -12,52 +12,24 @@ class News extends Model
 
     protected $table = "news";
 
-    public function getNews(int $id)
+    protected $fillable = [
+        'title',
+        'category_id',
+        'author',
+        'status',
+        'description',
+        'image',
+        'source_id',
+        'slug'
+    ];
+
+    public function category(): BelongsTo
     {
-        return DB::table($this->table)
-            ->select([
-                'id',
-                'category_id',
-                'title', 'author',
-                'image',
-                'status',
-                'description',
-                'created_at',
-                'source_id'
-            ])
-            ->find($id);
+        return $this->belongsTo(Category::class, 'category_id', 'id');
     }
 
-    public function getNewsByCategory(int $categoryId)
+    public function source(): BelongsTo
     {
-        return DB::table($this->table)
-            ->select([
-                'id',
-                'category_id',
-                'title', 'author',
-                'image',
-                'status',
-                'description',
-                'created_at',
-                'source_id'
-            ])
-            ->where('category_id', '=', $categoryId)
-            ->get();
-    }
-
-    public function getAllNews()
-    {
-        return DB::table($this->table)
-            ->select([
-                'id',
-                'category_id',
-                'title', 'author',
-                'image',
-                'status',
-                'description',
-                'created_at',
-                'source_id'
-                ])
-            ->get();
+        return $this->belongsTo(Source::class, 'source_id', 'id');
     }
 }
