@@ -12,7 +12,7 @@
                 @forelse($reviews as $review)
                     <article class="blog-post">
                         <h2 class="blog-post-title">{{ $review->user_name }}</h2>
-                        <p class="blog-post-meta">{{ $review->created_at }}</p>
+                        <p class="blog-post-meta">@if($review->created_at) {{ $review->created_at->format('d-m-Y H:i') }} @endif</p>
                         <p>{{ $review->text_review }}</p>
                     </article>
                     <hr>

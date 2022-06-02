@@ -56,8 +56,12 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function() {
 Route::group(['prefix' => 'user', 'as' => 'user.'], function() {
     Route::match(['get', 'post'],'/auth',[UserController::class, 'auth'])
         ->name('auth');
-    Route::match(['get', 'post'],'/feedback',[UserController::class, 'feedback'])
-        ->name('feedback');
-    Route::match(['get', 'post'],'/dataUpload',[UserController::class, 'dataUpload'])
-        ->name('dataUpload');
+    Route::get('/makeReview',[UserController::class, 'makeReview'])
+        ->name('makeReview');
+    Route::post('/storeReview',[UserController::class, 'storeReview'])
+        ->name('storeReview');
+    Route::get('/makeOrder',[UserController::class, 'makeOrder'])
+        ->name('makeOrder');
+    Route::post('/storeOrder',[UserController::class, 'storeOrder'])
+        ->name('storeOrder');
 });

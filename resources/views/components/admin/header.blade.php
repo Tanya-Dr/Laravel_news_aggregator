@@ -11,8 +11,8 @@
                     Contact us
                 </a>
                 <ul class="dropdown-menu " aria-labelledby="navbarDarkDropdownMenuLink">
-                    <li><a class="dropdown-item" href="{{ route('user.feedback') }}">Leave a feedback</a></li>
-                    <li><a class="dropdown-item" href="{{ route('user.dataUpload') }}">Make an order</a></li>
+                    <li><a class="dropdown-item" href="{{ route('user.makeReview') }}">Leave a feedback</a></li>
+                    <li><a class="dropdown-item" href="{{ route('user.makeOrder') }}">Make an order</a></li>
                 </ul>
             </li>
         </ul>

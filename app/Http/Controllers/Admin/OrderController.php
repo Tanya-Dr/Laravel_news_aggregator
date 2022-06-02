@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Orders\StoreRequest;
+use App\Http\Requests\Orders\UpdateRequest;
 use App\Models\Order;
 use App\Queries\QueryBuilderOrders;
 use Illuminate\Http\Request;
@@ -35,19 +37,19 @@ class OrderController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  StoreRequest  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        $validated = $request->only(['user_name', 'phone', 'email', 'info']);
+        $validated = $request->validated();
         $order = Order::create($validated);
 
         if($order) {
             return redirect()->route('admin.orders.index')
-                ->with('success', 'Order was added successfully');
+                ->with('success', __('message.admin.orders.create.success'));
         }
-        return back()->with('error', 'Add order error');
+        return back()->with('error', __('message.admin.orders.create.fail'));
     }
 
     /**
@@ -75,30 +77,38 @@ class OrderController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  UpdateRequest  $request
      * @param  \App\Models\Order  $order
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, Order $order)
+    public function update(UpdateRequest $request, Order $order)
     {
-        $validated = $request->only(['user_name', 'phone', 'email', 'info']);
+        $validated = $request->validated();
         $order = $order->fill($validated);
 
         if($order->save()) {
             return redirect()->route('admin.orders.index')
-                ->with('success', 'Order was edited successfully');
+                ->with('success', __('message.admin.orders.update.success'));
         }
-        return back()->with('error', 'Edit order error');
+        return back()->with('error', __('message.admin.orders.update.fail'));
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Order  $order
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(Order $order)
     {
-        //
+        try{
+            $order->delete();
+
+            return \response()->json('ok');
+        }catch (\Exception $e) {
+            \Log::error($e->getMessage());
+
+            return response()->json('error', 400);
+        }
     }
 }

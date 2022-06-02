@@ -34,11 +34,11 @@
                     <td>{{ $source->news_count }}</td>
                     <td>{{ $source->url }}</td>
                     <td>{{ $source->type }}</td>
-                    <td>{{ $source->created_at }}</td>
-                    <td>{{ $source->updated_at }}</td>
+                    <td>@if($source->created_at) {{ $source->created_at->format('d-m-Y H:i') }} @endif</td>
+                    <td>@if($source->updated_at) {{ $source->updated_at->format('d-m-Y H:i') }} @endif</td>
                     <td>
                         <a href="{{ route('admin.sources.edit', ['source' => $source]) }}" style="font-size: 12px;">Edit</a>&nbsp;
-                        <a href="#" style="color:red; font-size: 12px;">Delete</a>
+                        <a href="javascript:;" style="color:red; font-size: 12px;" class="delete" rel="{{ $source->id }}">Delete</a>
                     </td>
                 </tr>
             @empty
@@ -54,4 +54,33 @@
         {{ $sources->links() }}
     </div>
 @endsection
+@push('js')
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function() {
+            const el = document.querySelectorAll(".delete");
+            el.forEach(function(value, ket) {
+                value.addEventListener('click', function() {
+                    const id = this.getAttribute('rel');
+                    let str = 'Подтвердите удаление записи с #ID ' + id;
+                    if(confirm(str)) {
+                        send('/admin/sources/' + id).then(() => {
+                            location.reload();
+                        });
+                    }
+                });
+            });
+        });
 
+        async function send(url) {
+            let response = await fetch(url, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                }
+            });
+
+            let result = await response.json();
+            return result.ok;
+        }
+    </script>
+@endpush

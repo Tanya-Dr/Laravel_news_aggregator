@@ -21,10 +21,7 @@
         </div>
         <div class="mb-3">
             <label for="description" class="form-label">Description</label>
-            <textarea class="form-control" id="description" name="description" rows="5" required>{!! old('description') !!}</textarea>
-            <div class="invalid-feedback">
-                Please enter a description.
-            </div>
+            <textarea class="form-control" id="description" name="description" rows="5">{!! old('description') !!}</textarea>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>

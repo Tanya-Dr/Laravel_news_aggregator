@@ -15,7 +15,7 @@
         @method('put')
         <div class="mb-3">
             <label for="title" class="form-label">Title</label>
-            <input type="text" class="form-control" id="title" name="title" value="{{ $news->title}}" required>
+            <input type="text" class="form-control" id="title" name="title" value="{{ $news->title }}" required>
             <div class="invalid-feedback">
                 Please enter a title.
             </div>
@@ -45,10 +45,7 @@
         </div>
         <div class="mb-3">
             <label for="description" class="form-label">Description</label>
-            <textarea class="form-control" id="description" name="description" rows="5" required>{!! $news->description !!}</textarea>
-            <div class="invalid-feedback">
-                Please enter a description.
-            </div>
+            <textarea class="form-control" id="description" name="description" rows="5">{!! $news->description !!}</textarea>
         </div>
         <div class="mb-3">
             <label for="status" class="form-label">Status</label>

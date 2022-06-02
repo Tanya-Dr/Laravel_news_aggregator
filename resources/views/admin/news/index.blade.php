@@ -40,11 +40,11 @@
                     <td>{{ $news->image }}</td>
                     <td>{{ $news->description }}</td>
                     <td>{{ $news->status }}</td>
-                    <td>{{ $news->updated_at }}</td>
-                    <td>{{ $news->created_at }}</td>
+                    <td>@if($news->created_at) {{ $news->created_at->format('d-m-Y H:i') }} @endif</td>
+                    <td>@if($news->updated_at) {{ $news->updated_at->format('d-m-Y H:i') }} @endif</td>
                     <td>
                         <a href="{{ route('admin.news.edit', ['news' => $news]) }}" style="font-size: 12px;">Edit</a>&nbsp;
-                        <a href="#" style="color:red; font-size: 12px;">Delete</a>
+                        <a href="javascript:;" style="color:red; font-size: 12px;" class="delete" rel="{{ $news->id }}">Delete</a>
                     </td>
                 </tr>
             @empty
@@ -58,3 +58,33 @@
         {{ $newsList->links() }}
     </div>
 @endsection
+@push('js')
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function() {
+            const el = document.querySelectorAll(".delete");
+            el.forEach(function(value, ket) {
+                value.addEventListener('click', function() {
+                   const id = this.getAttribute('rel');
+                   let str = 'Подтвердите удаление записи с #ID ' + id;
+                   if(confirm(str)) {
+                        send('/admin/news/' + id).then(() => {
+                           location.reload();
+                        });
+                   }
+                });
+            });
+        });
+
+        async function send(url) {
+            let response = await fetch(url, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                }
+            });
+
+            let result = await response.json();
+            return result.ok;
+        }
+    </script>
+@endpush

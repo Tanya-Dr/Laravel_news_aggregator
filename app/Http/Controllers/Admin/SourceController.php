@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Sources\StoreRequest;
+use App\Http\Requests\Sources\UpdateRequest;
 use App\Models\Source;
 use App\Queries\QueryBuilderSources;
 use Illuminate\Http\Request;
@@ -35,20 +37,20 @@ class SourceController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  StoreRequest  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        $validated = $request->only(['title', 'url', 'type']);
+        $validated = $request->validated();
         $source = new Source($validated);
 
         if($source->save()) {
             return redirect()->route('admin.sources.index')
-                ->with('success', 'Source was added successfully');
+                ->with('success', __('message.admin.sources.create.success'));
         }
 
-        return back()->with('error', 'Add source error');
+        return back()->with('error', __('message.admin.sources.create.fail'));
     }
 
     /**
@@ -76,31 +78,39 @@ class SourceController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  UpdateRequest  $request
      * @param  \App\Models\Source  $source
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, Source $source)
+    public function update(UpdateRequest $request, Source $source)
     {
-        $validated = $request->only(['title', 'url', 'type']);
+        $validated = $request->validated();
         $source = $source->fill($validated);
 
         if($source->save()) {
             return redirect()->route('admin.sources.index')
-                ->with('success', 'Source was edited successfully');
+                ->with('success', __('message.admin.sources.update.success'));
         }
 
-        return back()->with('error', 'Edit source error');
+        return back()->with('error', __('message.admin.sources.update.fail'));
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Source  $source
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy(Source $source)
     {
-        //
+        try{
+            $source->delete();
+
+            return \response()->json('ok');
+        }catch (\Exception $e) {
+            \Log::error($e->getMessage());
+
+            return response()->json('error', 400);
+        }
     }
 }

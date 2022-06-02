@@ -28,10 +28,7 @@
         </div>
         <div class="mb-3">
             <label for="type" class="form-label">Type</label>
-            <input type="text" class="form-control" id="type" name="type" value="{{ old('type') }}" required>
-            <div class="invalid-feedback">
-                Please enter a type.
-            </div>
+            <input type="text" class="form-control" id="type" name="type" value="{{ old('type') }}">
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>

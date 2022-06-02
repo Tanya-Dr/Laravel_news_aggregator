@@ -4,7 +4,7 @@
 @section('content')
     <h3>Leave feedback</h3>
     @include('inc.messages')
-    <form class="needs-validation" style = "width: 60%" method="post" action = "{{ route('user.feedback') }}" novalidate>
+    <form class="needs-validation" style = "width: 60%" method="post" action = "{{ route('user.storeReview') }}" novalidate>
         @csrf
         <div class="mb-3">
             <label for="user_name" class="form-label">Name</label>

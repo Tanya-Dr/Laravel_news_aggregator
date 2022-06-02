@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\OrderCreateRequest;
+use App\Http\Requests\ReviewsCreateRequest;
 use App\Models\Order;
 use App\Models\Review;
 use App\Queries\QueryBuilderReviews;
@@ -26,41 +28,51 @@ class UserController extends Controller
     }
 
     /**
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
      */
-    public function feedback(Request $request)
+    public function makeReview(Request $request)
     {
-        if($request->isMethod('post')) {
-            $validated = $request->only(['user_name', 'text_review']);
-            $reviews = Review::create($validated);
-
-            if($reviews) {
-                return redirect()->route('reviews')
-                    ->with('success', 'Your review was added successfully');
-            }
-            return back()->with('error', 'Review add error');
-        }
-        return view('user.feedback');
+        return view('user.makeReview');
     }
 
     /**
-     * @param  \Illuminate\Http\Request  $request
+     * @param  ReviewsCreateRequest  $request
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
      */
-    public function dataUpload(Request $request)
+    public function storeReview(ReviewsCreateRequest $request)
     {
-        if($request->isMethod('post')) {
-            $validated = $request->only(['user_name', 'phone', 'email', 'info']);
-            $orders = Order::create($validated);
+        $validated = $request->validated();
+        $reviews = Review::create($validated);
 
-            if($orders) {
-                return redirect()->route('user.dataUpload')
-                    ->with('success', 'Your order was made successfully');
-            }
-            return back()->with('error', 'Order make error');
+        if($reviews) {
+            return redirect()->route('reviews')
+                ->with('success', __('message.user.reviews.create.success'));
         }
-        return view('user.dataUpload');
+        return back()->with('error', __('message.user.reviews.create.fail'));
+    }
+
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
+     */
+    public function makeOrder()
+    {
+        return view('user.makeOrder');
+    }
+
+    /**
+     * @param  OrderCreateRequest  $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Http\RedirectResponse
+     */
+    public function storeOrder(OrderCreateRequest $request)
+    {
+        $validated = $request->validated();
+        $orders = Order::create($validated);
+
+        if($orders) {
+            return redirect()->route('user.makeOrder')
+                ->with('success', __('message.user.orders.create.success'));
+        }
+        return back()->with('error', __('message.user.orders.create.fail'));
     }
 
     /**
