@@ -16,6 +16,6 @@ class QueryBuilderOrders implements QueryBuilder
 
     public function getOrders(): LengthAwarePaginator
     {
-        return Order::paginate(10);
+        return Order::orderBy('created_at')->paginate(10);
     }
 }

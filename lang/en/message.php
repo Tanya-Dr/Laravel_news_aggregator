@@ -41,20 +41,30 @@ return [
                 'success' => 'Source was edited successfully',
                 'fail' => 'Edit source error'
             ]
+        ],
+        'users' => [
+            'update' => [
+                'success' => 'User was edited successfully',
+                'fail' => 'Edit user error'
+            ]
         ]
     ],
-    'user' => [
-        'orders' => [
-            'create' => [
-                'success' => 'Your order was made successfully',
-                'fail' => 'Order make error'
-            ]
-        ],
-        'reviews' => [
-            'create' => [
-                'success' => 'Your review was added successfully',
-                'fail' => 'Review add error'
-            ]
+    'orders' => [
+        'create' => [
+            'success' => 'Your order was made successfully',
+            'fail' => 'Order make error'
+        ]
+    ],
+    'reviews' => [
+        'create' => [
+            'success' => 'Your review was added successfully',
+            'fail' => 'Review add error'
+        ]
+    ],
+    'account' => [
+        'update' => [
+            'success' => 'Your profile was updated successfully',
+            'fail' => 'Profile update error'
         ]
     ]
 ];

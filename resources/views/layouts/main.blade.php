@@ -6,10 +6,12 @@
     <title>GB News @section('title') @show</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="{{ asset('css/signin.css') }}" rel="stylesheet">
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
 
-
+    <!-- Custom styles for this template -->
+    <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/blog.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <style>
         .bd-placeholder-img {
             font-size: 1.125rem;
@@ -36,13 +38,17 @@
         }
     </style>
 
-    <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet">
-    <link href="{{ asset('css/blog.css') }}" rel="stylesheet">
+    <!-- Scripts -->
+    <script src="{{ asset('js/bootstrap.bundle.min.js') }}" defer></script>
+
+    <!-- Fonts -->
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
 </head>
 <body>
 <div class="wrapper">
     <div class="top">
-        <x-admin.header></x-admin.header>
+        <x-header></x-header>
         @isset($categories)
             <x-categoriesNavBar :categories="$categories" :news="$news"></x-categoriesNavBar>
         @endisset
@@ -57,7 +63,7 @@
     <x-footer></x-footer>
 </div>
 
-<script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
+
 @stack('js')
 </body>
 </html>

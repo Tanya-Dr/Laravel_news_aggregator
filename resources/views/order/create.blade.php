@@ -4,7 +4,7 @@
 @section('content')
     <h3>Make an order</h3>
     @include('inc.messages')
-    <form class="needs-validation" style = "width: 60%" method="post" action = "{{ route('user.storeOrder') }}" novalidate>
+    <form class="needs-validation" style = "width: 60%" method="post" action = "{{ route('order.store') }}" novalidate>
         @csrf
         <div class="mb-3">
             <label for="user_name" class="form-label">Name</label>

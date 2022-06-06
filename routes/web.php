@@ -8,9 +8,13 @@ use App\Http\Controllers\Admin\NewsController as AdminNewsController;
 use App\Http\Controllers\Admin\IndexController as AdminController;
 use App\Http\Controllers\Admin\SourceController as AdminSourceController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
 
-use App\Http\Controllers\UserController as UserController;
+use App\Http\Controllers\ReviewController as ReviewController;
+use App\Http\Controllers\OrderController as OrderController;
 
+use App\Http\Controllers\Account\IndexController as AccountController;
+use App\Http\Controllers\Account\ProfileController as ProfileController;
 
     /*
     |--------------------------------------------------------------------------
@@ -22,10 +26,6 @@ use App\Http\Controllers\UserController as UserController;
     | contains the "web" middleware group. Now create something great!
     |
     */
-
-//Route::get('/', function () {
-//    return view('welcome');
-//});
 
 Route::get('/', function () {
     return view('info');
@@ -42,26 +42,44 @@ Route::group(['prefix' => 'news', 'as' => 'news.'], function() {
         ->name('show');
 });
 
-Route::get('/reviews', [UserController::class, 'showReviews'])->name('reviews');
+Route::group(['middleware' => 'auth'], function () {
+    Route::group(['prefix' => 'account', 'as' => 'account.'], function() {
+        Route::get('/', AccountController::class)
+            ->name('index');
+        Route::get('/edit', [ProfileController::class, 'edit'])
+            ->name('edit');
+        Route::post('/update/{user}', [ProfileController::class, 'update'])
+            ->name('update');
+    });
 
-Route::group(['prefix' => 'admin', 'as' => 'admin.'], function() {
-    Route::get('/',AdminController::class)
+    Route::group(['middleware' => 'admin','prefix' => 'admin', 'as' => 'admin.'], function() {
+        Route::get('/',AdminController::class)
+            ->name('index');
+        Route::resource('/categories',AdminCategoryController::class);
+        Route::resource('/news', AdminNewsController::class);
+        Route::resource('/sources', AdminSourceController::class);
+        Route::resource('/orders', AdminOrderController::class);
+        Route::resource('/users', AdminUserController::class);
+    });
+});
+
+Route::group(['prefix' => 'review', 'as' => 'reviews.'], function() {
+    Route::get('/', [ReviewController::class, 'showReviews'])
         ->name('index');
-    Route::resource('/categories',AdminCategoryController::class);
-    Route::resource('/news', AdminNewsController::class);
-    Route::resource('/sources', AdminSourceController::class);
-    Route::resource('/orders', AdminOrderController::class);
+    Route::get('/leaveReview',[ReviewController::class, 'makeReview'])
+        ->name('make');
+    Route::post('/storeReview',[ReviewController::class, 'storeReview'])
+        ->name('store');
 });
 
-Route::group(['prefix' => 'user', 'as' => 'user.'], function() {
-    Route::match(['get', 'post'],'/auth',[UserController::class, 'auth'])
-        ->name('auth');
-    Route::get('/makeReview',[UserController::class, 'makeReview'])
-        ->name('makeReview');
-    Route::post('/storeReview',[UserController::class, 'storeReview'])
-        ->name('storeReview');
-    Route::get('/makeOrder',[UserController::class, 'makeOrder'])
-        ->name('makeOrder');
-    Route::post('/storeOrder',[UserController::class, 'storeOrder'])
-        ->name('storeOrder');
+Route::group(['prefix' => 'order', 'as' => 'order.'], function() {
+    Route::get('/makeOrder',[OrderController::class, 'makeOrder'])
+        ->name('make');
+    Route::post('/storeOrder',[OrderController::class, 'storeOrder'])
+        ->name('store');
 });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])
+    ->name('home');

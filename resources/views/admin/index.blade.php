@@ -9,7 +9,5 @@
         </div>
     </div>
     @php $msg = "Success"; @endphp
-    <x-alert type="success" :message="$msg"></x-alert>
-    <x-alert type="warning" message="Warning"></x-alert>
-    <x-alert type="danger" message="Danger"></x-alert>
+    <p>Welcome to admin page</p>
 @endsection

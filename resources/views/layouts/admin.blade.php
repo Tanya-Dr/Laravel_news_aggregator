@@ -7,8 +7,12 @@
     <title>GB News Admin @section('title') @show</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="{{ asset('css/signin.css') }}" rel="stylesheet">
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
     <style>
         .bd-placeholder-img {
@@ -39,11 +43,13 @@
         }
     </style>
 
-    <!-- Custom styles for this template -->
-    <link href="{{ asset('css/dashboard.css') }}" rel="stylesheet">
+    <!-- Fonts -->
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+
 </head>
 <body>
-<x-admin.header></x-admin.header>
+<x-header></x-header>
 
 <div class="container-fluid">
     <div class="row">

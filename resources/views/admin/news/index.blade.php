@@ -62,7 +62,7 @@
     <script type="text/javascript">
         document.addEventListener("DOMContentLoaded", function() {
             const el = document.querySelectorAll(".delete");
-            el.forEach(function(value, ket) {
+            el.forEach(function(value, key) {
                 value.addEventListener('click', function() {
                    const id = this.getAttribute('rel');
                    let str = 'Подтвердите удаление записи с #ID ' + id;

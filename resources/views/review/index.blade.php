@@ -3,17 +3,15 @@
 
 @section('content')
     <main class="container">
-        <div class="row g-5">
+        <div class="row g-4">
             <div class="col-md-8">
-                <h1 class="pb-4 mb-4 fst-italic border-bottom">
-                    Reviews
-                </h1>
+                <h3 class="pb-4 mb-4 border-bottom">Reviews</h3>
                 @include('inc.messages')
                 @forelse($reviews as $review)
-                    <article class="blog-post">
-                        <h2 class="blog-post-title">{{ $review->user_name }}</h2>
-                        <p class="blog-post-meta">@if($review->created_at) {{ $review->created_at->format('d-m-Y H:i') }} @endif</p>
+                    <article class="blog-post" style="margin-bottom: 10px;">
+                        <strong class="d-inline-block mb-2 text-primary" style="font-size: 1rem;">{{ $review->user_name }}</strong>
                         <p>{{ $review->text_review }}</p>
+                        <p class="blog-post-meta">@if($review->created_at) {{ $review->created_at->format('d-m-Y H:i') }} @endif</p>
                     </article>
                     <hr>
                 @empty
