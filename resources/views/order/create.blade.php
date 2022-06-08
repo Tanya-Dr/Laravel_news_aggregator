@@ -8,7 +8,7 @@
         @csrf
         <div class="mb-3">
             <label for="user_name" class="form-label">Name</label>
-            <input type="text" class="form-control" id="user_name" name="user_name" value="{{ old('user_name') }}" required>
+            <input type="text" class="form-control" id="user_name" name="user_name" value="{{ Auth::user()->name }}" required>
             <div class="invalid-feedback">
                 Please enter your name.
             </div>
@@ -19,7 +19,7 @@
         </div>
         <div class="mb-3">
             <label for="email" class="form-label">Email</label>
-            <input type="email" class="form-control" id="email" name="email" value="{{ old('email') }}" required>
+            <input type="email" class="form-control" id="email" name="email" value="{{ Auth::user()->email }}" required>
             <div class="invalid-feedback">
                 Please enter your email.
             </div>

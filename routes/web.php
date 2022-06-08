@@ -9,12 +9,14 @@ use App\Http\Controllers\Admin\IndexController as AdminController;
 use App\Http\Controllers\Admin\SourceController as AdminSourceController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\Admin\ParserController as AdminParserController;
 
 use App\Http\Controllers\ReviewController as ReviewController;
 use App\Http\Controllers\OrderController as OrderController;
 
 use App\Http\Controllers\Account\IndexController as AccountController;
 use App\Http\Controllers\Account\ProfileController as ProfileController;
+use App\Http\Controllers\SocialController;
 
     /*
     |--------------------------------------------------------------------------
@@ -27,7 +29,7 @@ use App\Http\Controllers\Account\ProfileController as ProfileController;
     |
     */
 
-Route::get('/', function () {
+Route::get('/', function() {
     return view('info');
 })->name('info');
 
@@ -42,7 +44,7 @@ Route::group(['prefix' => 'news', 'as' => 'news.'], function() {
         ->name('show');
 });
 
-Route::group(['middleware' => 'auth'], function () {
+Route::group(['middleware' => 'auth'], function() {
     Route::group(['prefix' => 'account', 'as' => 'account.'], function() {
         Route::get('/', AccountController::class)
             ->name('index');
@@ -50,6 +52,13 @@ Route::group(['middleware' => 'auth'], function () {
             ->name('edit');
         Route::post('/update/{user}', [ProfileController::class, 'update'])
             ->name('update');
+    });
+
+    Route::group(['prefix' => 'order', 'as' => 'order.'], function() {
+        Route::get('/makeOrder',[OrderController::class, 'makeOrder'])
+            ->name('make');
+        Route::post('/storeOrder',[OrderController::class, 'storeOrder'])
+            ->name('store');
     });
 
     Route::group(['middleware' => 'admin','prefix' => 'admin', 'as' => 'admin.'], function() {
@@ -60,6 +69,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::resource('/sources', AdminSourceController::class);
         Route::resource('/orders', AdminOrderController::class);
         Route::resource('/users', AdminUserController::class);
+        Route::get('/parser', AdminParserController::class)
+            ->name('parser');
     });
 });
 
@@ -67,19 +78,23 @@ Route::group(['prefix' => 'review', 'as' => 'reviews.'], function() {
     Route::get('/', [ReviewController::class, 'showReviews'])
         ->name('index');
     Route::get('/leaveReview',[ReviewController::class, 'makeReview'])
-        ->name('make');
+        ->name('make')
+        ->middleware('auth');
     Route::post('/storeReview',[ReviewController::class, 'storeReview'])
-        ->name('store');
-});
-
-Route::group(['prefix' => 'order', 'as' => 'order.'], function() {
-    Route::get('/makeOrder',[OrderController::class, 'makeOrder'])
-        ->name('make');
-    Route::post('/storeOrder',[OrderController::class, 'storeOrder'])
-        ->name('store');
+        ->name('store')
+        ->middleware('auth');
 });
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])
     ->name('home');
+
+Route::group(['middleware' => 'guest'], function() {
+    Route::get('/auth/{driver}/redirect', [SocialController::class, 'redirect'])
+        ->where('driver', '\w+')
+        ->name('social.redirect');
+    Route::any('/auth/{driver}/callback', [SocialController::class, 'callback'])
+        ->where('driver', '\w+')
+        ->name('social.callback');
+});

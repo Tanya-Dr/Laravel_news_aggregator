@@ -66,6 +66,14 @@
                             </div>
                         </div>
                     </form>
+                    <br>
+                    <a class="btn btn-link offset-md-5" href="{{ route('social.redirect', ['driver' => 'vkontakte']) }}">
+                        {{ __('Login via vk') }}
+                    </a>
+                    <br>
+                    <a class="btn btn-link offset-md-5" href="{{ route('social.redirect', ['driver' => 'github']) }}">
+                        {{ __('Login via github') }}
+                    </a>
                 </div>
             </div>
         </div>

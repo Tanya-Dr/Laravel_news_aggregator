@@ -28,7 +28,7 @@
             <label for="password" class="form-label">Current password</label>
             <input type="password" class="form-control" id="password" name="password" required>
             <div class="invalid-feedback">
-                Please enter your curren password.
+                Please enter your current password.
             </div>
         </div>
         <div class="mb-3">
