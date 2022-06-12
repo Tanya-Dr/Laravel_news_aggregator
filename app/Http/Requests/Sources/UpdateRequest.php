@@ -26,7 +26,10 @@ class UpdateRequest extends FormRequest
         return [
             'title' => ['required', 'string', 'max:255'],
             'url' => ['required', 'url'],
-            'type' => ['nullable', 'string']
+            'description' => ['nullable', 'string'],
+            'image' => ['nullable', 'string'],
+            'last_build_date' => ['nullable', 'date'],
+            'category_id' => ['required', 'integer', 'min:1', 'exists:categories,id']
         ];
     }
 
@@ -40,7 +43,7 @@ class UpdateRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'type' => 'тип'
+            'description' => 'описание'
         ];
     }
 }

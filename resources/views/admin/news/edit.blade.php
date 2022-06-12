@@ -10,7 +10,7 @@
 
     <h3>Editing news form</h3>
     @include('inc.messages')
-    <form class="needs-validation" style = "width: 60%" method="post" action = "{{ route('admin.news.update', ['news' => $news]) }}" novalidate>
+    <form id = "editForm" class="needs-validation" style = "width: 60%" method="post" action = "{{ route('admin.news.update', ['news' => $news]) }}" novalidate enctype="multipart/form-data">
         @csrf
         @method('put')
         <div class="mb-3">
@@ -48,8 +48,16 @@
             <textarea class="form-control" id="description" name="description" rows="5">{!! $news->description !!}</textarea>
         </div>
         <div class="mb-3">
+            <label for="link" class="form-label">Link</label>
+            <input type="text" class="form-control" id="link" name="link" value="{{ $news->link }}">
+        </div>
+        <div class="mb-3">
+            <label for="pub_date" class="form-label">Pub date</label>
+            <input type="date" class="form-control" id="pub_date" name="pub_date" value="{{ $news->pub_date->format('Y-m-d') }}" style="width: fit-content;">
+        </div>
+        <div class="mb-3">
             <label for="status" class="form-label">Status</label>
-            <select class="form-select form-select-sm mb-3" aria-label=".form-select-dm example" id="status" name="status">
+            <select class="form-select form-select-sm mb-3" aria-label=".form-select-dm example" id="status" name="status" style="width: fit-content;">
                 <option @if($news->status === 'DRAFT') selected @endif>DRAFT</option>
                 <option @if($news->status === 'ACTIVE') selected @endif>ACTIVE</option>
                 <option @if($news->status === 'BLOCKED') selected @endif>BLOCKED</option>
@@ -57,6 +65,12 @@
         </div>
         <div class="mb-3">
             <label for="image" class="form-label">Image</label>
+            @if($news->image)
+                <div style="margin-bottom: 0.5rem; display: flex; flex-direction: column; align-items: flex-start;" id="showImage">
+                    <img src="{{ str_contains($news->image, 'https') ? $news->image : Storage::url($news->image) }}" style="width: 350px; margin-bottom: 0.5rem;" alt="{{ $news->slug }}">
+                    <a href="javascript:;" class="delete btn btn-outline-danger">Delete image</a>
+                </div>
+            @endif
             <input class="form-control" type="file" id="image" name="image">
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
@@ -65,4 +79,36 @@
 @endsection
 @push('js')
     <script src="{{ asset('js/validate-forms.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+    <script>
+        var route_prefix = "/filemanager";
+    </script>
+
+    <!-- CKEditor init -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/ckeditor/4.5.11/ckeditor.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/ckeditor/4.5.11/adapters/jquery.js"></script>
+    <script>
+        $('#description').ckeditor({
+            height: 100,
+            filebrowserImageBrowseUrl: route_prefix + '?type=Images',
+            filebrowserImageUploadUrl: route_prefix + '/upload?type=Images&_token={{csrf_token()}}',
+            filebrowserBrowseUrl: route_prefix + '?type=Files',
+            filebrowserUploadUrl: route_prefix + '/upload?type=Files&_token={{csrf_token()}}'
+        });
+    </script>
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function() {
+            const el = document.querySelector(".delete");
+            el.addEventListener('click', function() {
+                document.querySelector('#showImage').style.display = "none";
+                let newInput = document.createElement('input');
+                newInput.type = "hidden";
+                newInput.name = "delImage";
+                newInput.value = "true";
+                document.querySelector('#editForm').append(newInput);
+            });
+        });
+    </script>
 @endpush

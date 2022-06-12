@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Sources\StoreRequest;
 use App\Http\Requests\Sources\UpdateRequest;
+use App\Models\Category;
 use App\Models\Source;
 use App\Queries\QueryBuilderSources;
 use Illuminate\Http\Request;
@@ -31,7 +32,8 @@ class SourceController extends Controller
      */
     public function create()
     {
-        return view('admin.sources.create');
+        $categories = Category::all();
+        return view('admin.sources.create', ['categories' => $categories]);
     }
 
     /**
@@ -72,7 +74,8 @@ class SourceController extends Controller
      */
     public function edit(Source $source)
     {
-        return view('admin.sources.edit', ['source' => $source]);
+        $categories = Category::all();
+        return view('admin.sources.edit', ['source' => $source, 'categories' => $categories]);
     }
 
     /**

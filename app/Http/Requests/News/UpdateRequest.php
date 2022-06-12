@@ -30,7 +30,10 @@ class UpdateRequest extends FormRequest
             'author' => ['required', 'string', 'min:2', 'max:50'],
             'description' => ['nullable', 'string'],
             'status' => ['required', 'string', 'min:5', 'max:7'],
-            'image' => ['nullable', 'image', 'mimes:png,jpg']
+            'image' => ['nullable', 'image', 'mimes:png,jpg'],
+            'link' => ['nullable', 'string'],
+            'guid' => ['nullable', 'string'],
+            'pub_date' => ['nullable', 'date']
         ];
     }
 

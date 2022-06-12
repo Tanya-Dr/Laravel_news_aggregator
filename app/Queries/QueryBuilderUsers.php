@@ -17,7 +17,7 @@ class QueryBuilderUsers implements QueryBuilder
 
     public function getUsers(): LengthAwarePaginator
     {
-        return User::select(['id', 'name', 'email', 'is_admin', 'created_at', 'updated_at'])
+        return User::select(['id', 'name', 'email', 'is_admin', 'created_at', 'updated_at', 'avatar'])
             ->paginate(10);
     }
 }

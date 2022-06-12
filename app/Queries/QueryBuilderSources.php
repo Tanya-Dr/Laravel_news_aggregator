@@ -6,6 +6,7 @@ namespace App\Queries;
 
 use App\Models\Source;
 use Illuminate\Contracts\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class QueryBuilderSources implements QueryBuilder
@@ -18,6 +19,11 @@ class QueryBuilderSources implements QueryBuilder
 
     public function getSources(): LengthAwarePaginator
     {
-        return Source::withCount('news')->paginate(10);
+        return Source::with('category')->withCount('news')->paginate(10);
+    }
+
+    public function getSourcesUrls(): Collection
+    {
+        return Source::select(['url'])->get();
     }
 }

@@ -40,7 +40,7 @@ Route::group(['prefix' => 'news', 'as' => 'news.'], function() {
         ->name('category');
     Route::get('/source/{source}', [NewsController::class, 'showSource'])
         ->name('source');
-    Route::get('/{news}', [NewsController::class, 'show'])
+    Route::get('/{slug}', [NewsController::class, 'show'])
         ->name('show');
 });
 
@@ -49,8 +49,10 @@ Route::group(['middleware' => 'auth'], function() {
         Route::get('/', AccountController::class)
             ->name('index');
         Route::get('/edit', [ProfileController::class, 'edit'])
+            ->middleware('userLogin')
             ->name('edit');
         Route::post('/update/{user}', [ProfileController::class, 'update'])
+            ->middleware('userLogin')
             ->name('update');
     });
 
@@ -61,7 +63,7 @@ Route::group(['middleware' => 'auth'], function() {
             ->name('store');
     });
 
-    Route::group(['middleware' => 'admin','prefix' => 'admin', 'as' => 'admin.'], function() {
+    Route::group(['middleware' => 'admin', 'prefix' => 'admin', 'as' => 'admin.'], function() {
         Route::get('/',AdminController::class)
             ->name('index');
         Route::resource('/categories',AdminCategoryController::class);
@@ -97,4 +99,8 @@ Route::group(['middleware' => 'guest'], function() {
     Route::any('/auth/{driver}/callback', [SocialController::class, 'callback'])
         ->where('driver', '\w+')
         ->name('social.callback');
+});
+
+Route::group(['prefix' => 'laravel-filemanager', 'middleware' => ['web', 'auth', 'admin']], function () {
+    \UniSharp\LaravelFilemanager\Lfm::routes();
 });

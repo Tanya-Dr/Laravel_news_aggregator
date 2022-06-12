@@ -6,6 +6,7 @@ use App\Http\Requests\ReviewsCreateRequest;
 use App\Models\Review;
 use App\Queries\QueryBuilderReviews;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ReviewController extends Controller
 {
@@ -24,6 +25,7 @@ class ReviewController extends Controller
     public function storeReview(ReviewsCreateRequest $request)
     {
         $validated = $request->validated();
+        $validated['user_id'] = Auth::user()->id;
         $reviews = Review::create($validated);
 
         if($reviews) {

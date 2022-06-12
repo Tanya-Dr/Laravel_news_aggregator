@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Review extends Model
 {
@@ -12,7 +13,12 @@ class Review extends Model
     protected $table = "reviews";
 
     protected $fillable = [
-        'user_name',
+        'user_id',
         'text_review'
     ];
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class,'user_id', 'id');
+    }
 }

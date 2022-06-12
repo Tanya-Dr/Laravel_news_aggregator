@@ -10,7 +10,7 @@
 
     <h3>Adding news form</h3>
     @include('inc.messages')
-    <form class="needs-validation" style = "width: 60%" method="post" action = "{{ route('admin.news.store') }}" novalidate>
+    <form class="needs-validation" style = "width: 60%" method="post" action = "{{ route('admin.news.store') }}" novalidate enctype="multipart/form-data">
         @csrf
         <div class="mb-3">
             <label for="title" class="form-label">Title</label>
@@ -37,7 +37,7 @@
         </div>
         <div class="mb-3">
             <label for="author" class="form-label">Author</label>
-            <input type="text" class="form-control" id="author" name="author"  value="{{ old('author') }}" required>
+            <input type="text" class="form-control" id="author" name="author" value="{{ old('author') }}" required>
             <div class="invalid-feedback">
                 Please enter an author.
             </div>
@@ -47,8 +47,16 @@
             <textarea class="form-control" id="description" name="description" rows="5">{!! old('description') !!}</textarea>
         </div>
         <div class="mb-3">
+            <label for="link" class="form-label">Link</label>
+            <input type="text" class="form-control" id="link" name="link" value="{{ old('link') }}">
+        </div>
+        <div class="mb-3">
+            <label for="pub_date" class="form-label">Pub date</label>
+            <input type="date" class="form-control" id="pub_date" name="pub_date" value="{{ old('pub_date') }}" style="width: fit-content;">
+        </div>
+        <div class="mb-3">
             <label for="status" class="form-label">Status</label>
-            <select class="form-select form-select-sm mb-3" aria-label=".form-select-dm example" id="status" name="status">
+            <select class="form-select form-select-sm mb-3" aria-label=".form-select-dm example" id="status" name="status" style="width: fit-content;">
                 <option @if(old('status') === 'DRAFT') selected @endif>DRAFT</option>
                 <option @if(old('status') === 'ACTIVE') selected @endif>ACTIVE</option>
                 <option @if(old('status') === 'BLOCKED') selected @endif>BLOCKED</option>
@@ -64,4 +72,23 @@
 @endsection
 @push('js')
     <script src="{{ asset('js/validate-forms.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+    <script>
+        var route_prefix = "/filemanager";
+    </script>
+
+    <!-- CKEditor init -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/ckeditor/4.5.11/ckeditor.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/ckeditor/4.5.11/adapters/jquery.js"></script>
+    <script>
+        $('#description').ckeditor({
+            height: 100,
+            filebrowserImageBrowseUrl: route_prefix + '?type=Images',
+            filebrowserImageUploadUrl: route_prefix + '/upload?type=Images&_token={{csrf_token()}}',
+            filebrowserBrowseUrl: route_prefix + '?type=Files',
+            filebrowserUploadUrl: route_prefix + '/upload?type=Files&_token={{csrf_token()}}'
+        });
+    </script>
 @endpush

@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class News extends Model
 {
-    use HasFactory;
+    use HasFactory, Sluggable ;
 
     protected $table = "news";
 
@@ -20,7 +21,14 @@ class News extends Model
         'description',
         'image',
         'source_id',
-        'slug'
+        'slug',
+        'link',
+        'guid',
+        'pub_date'
+    ];
+
+    protected $casts = [
+        'pub_date' => 'datetime'
     ];
 
     public function category(): BelongsTo
@@ -31,5 +39,14 @@ class News extends Model
     public function source(): BelongsTo
     {
         return $this->belongsTo(Source::class, 'source_id', 'id');
+    }
+
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'title'
+            ]
+        ];
     }
 }

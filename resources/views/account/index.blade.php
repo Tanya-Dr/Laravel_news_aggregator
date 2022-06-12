@@ -9,7 +9,11 @@
                 @if(Auth::user()->avatar)
                     <img src="{{ Auth::user()->avatar }}" style="width: 200px;" alt="avatar">
                 @endif
-                <a class="p-2 link-secondary" href="{{ route('account.edit') }}" style="width: fit-content;">Change your profile</a>
+                @if(Auth::user()->password != '')
+                    <a class="p-2 link-secondary" href="{{ route('account.edit') }}" style="width: fit-content;">
+                        Change your profile
+                    </a>
+                @endif
                 @if(Auth::user()->is_admin)
                     <a class="p-2 link-secondary" href="{{ route('admin.index') }}" style="width: fit-content;">Admin page</a>
                 @endif

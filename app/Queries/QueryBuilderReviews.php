@@ -17,6 +17,6 @@ class QueryBuilderReviews implements QueryBuilder
 
     public function getReviews(): LengthAwarePaginator
     {
-        return Review::orderByDesc('created_at')->paginate(10);
+        return Review::with('user')->orderByDesc('created_at')->paginate(10);
     }
 }

@@ -8,10 +8,7 @@
         @csrf
         <div class="mb-3">
             <label for="user_name" class="form-label">Name</label>
-            <input type="text" class="form-control" id="user_name" name="user_name" value="{{ Auth::user()->name }}" required>
-            <div class="invalid-feedback">
-                Please enter your name.
-            </div>
+            <input type="text" class="form-control" id="user_name" name="user_name" value="{{ Auth::user()->name }}" disabled readonly>
         </div>
         <div class="mb-3">
             <label for="phone" class="form-label">Phone</label>

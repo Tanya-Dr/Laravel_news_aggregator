@@ -13,7 +13,7 @@
 
     <div class="table-responsive">
         @include('inc.messages')
-        <table class="table table-striped table-sm">
+        <table class="table table-striped table-sm" style="table-layout: fixed;">
             <thead>
             <tr>
                 <th scope="col">#ID</th>
@@ -23,26 +23,26 @@
                 <th scope="col">Author</th>
                 <th scope="col">Image(url)</th>
                 <th scope="col">Description</th>
+                <th scope="col">Link</th>
                 <th scope="col">Status</th>
-                <th scope="col">Created date</th>
-                <th scope="col">Updated date</th>
+                <th scope="col">Pub date</th>
                 <th scope="col">Control</th>
             </tr>
             </thead>
             <tbody>
             @forelse($newsList as $news)
                 <tr>
-                    <td>{{ $news->id }}</td>
-                    <td>{{ $news->category->title }}</td>
-                    <td>{{ $news->source->title }}</td>
-                    <td>{{ $news->title }}</td>
-                    <td>{{ $news->author }}</td>
-                    <td>{{ $news->image }}</td>
-                    <td>{{ $news->description }}</td>
-                    <td>{{ $news->status }}</td>
-                    <td>@if($news->created_at) {{ $news->created_at->format('d-m-Y H:i') }} @endif</td>
-                    <td>@if($news->updated_at) {{ $news->updated_at->format('d-m-Y H:i') }} @endif</td>
-                    <td>
+                    <td style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">{{ $news->id }}</td>
+                    <td style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">{{ $news->category->title }}</td>
+                    <td style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">{{ $news->source->title }}</td>
+                    <td style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">{{ $news->title }}</td>
+                    <td style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">{{ $news->author }}</td>
+                    <td style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">{{ $news->image }}</td>
+                    <td style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">{{ $news->description }}</td>
+                    <td style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">{{ $news->link }}</td>
+                    <td style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">{{ $news->status }}</td>
+                    <td style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">@if($news->pub_date) {{ $news->pub_date->format('d-m-Y H:i') }} @endif</td>
+                    <td style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
                         <a href="{{ route('admin.news.edit', ['news' => $news]) }}" style="font-size: 12px;">Edit</a>&nbsp;
                         <a href="javascript:;" style="color:red; font-size: 12px;" class="delete" rel="{{ $news->id }}">Delete</a>
                     </td>

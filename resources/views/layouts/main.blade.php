@@ -49,9 +49,9 @@
 <div class="wrapper">
     <div class="top">
         <x-header></x-header>
-        @isset($categories)
+        @if(isset($categories) && isset($news))
             <x-categoriesNavBar :categories="$categories" :news="$news"></x-categoriesNavBar>
-        @endisset
+        @endif
         <main>
             <div class="album py-5 bg-light">
                 <div class="container">

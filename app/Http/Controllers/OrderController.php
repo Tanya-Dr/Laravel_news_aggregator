@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\OrderCreateRequest;
 use App\Models\Order;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
@@ -22,6 +23,7 @@ class OrderController extends Controller
     public function storeOrder(OrderCreateRequest $request)
     {
         $validated = $request->validated();
+        $validated['user_id'] = Auth::user()->id;
         $orders = Order::create($validated);
 
         if($orders) {

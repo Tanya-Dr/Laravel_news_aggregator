@@ -9,6 +9,7 @@ use App\Models\Category;
 use App\Models\News;
 use App\Models\Source;
 use App\Queries\QueryBuilderNews;
+use App\Services\UploadService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -23,7 +24,7 @@ class NewsController extends Controller
     public function index(QueryBuilderNews $news)
     {
         return view('admin.news.index',[
-            'newsList' => $news->getNews()
+            'newsList' => $news->getNewsOrderById(20)
         ]);
     }
 
@@ -46,12 +47,17 @@ class NewsController extends Controller
      * Store a newly created resource in storage.
      *
      * @param StoreRequest $request
+     * @param UploadService $uploadService
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(StoreRequest $request)
+    public function store(StoreRequest $request, UploadService $uploadService)
     {
         $validated = $request->validated();
-        $validated['slug'] = \Str::slug($validated['title']);
+
+        if($request->hasFile('image')) {
+            $validated['image'] = $uploadService->uploadImage($request->file('image'));
+        }
+
         $news = News::create($validated);
 
         if($news) {
@@ -95,12 +101,21 @@ class NewsController extends Controller
      *
      * @param UpdateRequest $request
      * @param News $news
+     * @param UploadService $uploadService
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(UpdateRequest $request, News $news)
+    public function update(UpdateRequest $request, News $news, UploadService $uploadService)
     {
         $validated = $request->validated();
-        $validated['slug'] = \Str::slug($validated['title']);
+
+        if($request->has('delImage')) {
+            $validated['image'] = '';
+        }
+
+        if($request->hasFile('image')) {
+            $validated['image'] = $uploadService->uploadImage($request->file('image'));
+        }
+
         $news = $news->fill($validated);
 
         if($news->save()) {

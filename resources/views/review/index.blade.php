@@ -9,7 +9,7 @@
                 @include('inc.messages')
                 @forelse($reviews as $review)
                     <article class="blog-post" style="margin-bottom: 10px;">
-                        <strong class="d-inline-block mb-2 text-primary" style="font-size: 1rem;">{{ $review->user_name }}</strong>
+                        <strong class="d-inline-block mb-2 text-primary" style="font-size: 1rem;">{{ $review->user->name }}</strong>
                         <p>{{ $review->text_review }}</p>
                         <p class="blog-post-meta">@if($review->created_at) {{ $review->created_at->format('d-m-Y H:i') }} @endif</p>
                     </article>

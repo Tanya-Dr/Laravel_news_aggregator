@@ -18,7 +18,7 @@ class NewsController extends Controller
         $categories = Category::all();
         return view('news.index',[
             'categories' => $categories,
-            'newsList' => $news->getNews()
+            'newsList' => $news->getNews(9)
         ]);
     }
 
@@ -53,11 +53,12 @@ class NewsController extends Controller
     }
 
     /**
-     * @param News $news
+     * @param string $slug
+     * @param QueryBuilderNews $news
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function show(News $news)
+    public function show(string $slug, QueryBuilderNews $news)
     {
-        return view('news.showNews',['news' => $news]);
+        return view('news.showNews', ['news' => $news->getNewsBySlug($slug)->first()]);
     }
 }
